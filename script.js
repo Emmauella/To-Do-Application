@@ -21,24 +21,27 @@ function renderTasks() {
 
     const span = document.createElement("span");
     span.textContent = task.text;
-    if (task.done) span.classList.add("done");
+    span.classList.add("task-text");
 
     const actions = document.createElement("div");
     actions.classList.add("actions");
 
-    const doneBtn = document.createElement("button");
-    doneBtn.textContent = "✔";
-    doneBtn.onclick = () => toggleDone(index);
+    const doneCheckbox = document.createElement("input");
+    doneCheckbox.type = "checkbox";
+    doneCheckbox.checked = task.done;
+    doneCheckbox.onchange = () => toggleDone(index);
 
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "✖";
     deleteBtn.onclick = () => deleteTask(index);
 
-    actions.appendChild(doneBtn);
+    actions.appendChild(doneCheckbox);
     actions.appendChild(deleteBtn);
 
     li.appendChild(span);
     li.appendChild(actions);
+
+    if (task.done) li.classList.add("done");
 
     list.appendChild(li);
   });
