@@ -1,0 +1,81 @@
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+const input = document.getElementById("taskInput");
+const form = document.getElementById("taskForm");
+const list = document.getElementById("taskList");
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  addTask();
+});
+
+function saveTasks() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function renderTasks() {
+  list.innerHTML = "";
+
+  tasks.forEach((task, index) => {
+    const li = document.createElement("li");
+
+    const span = document.createElement("span");
+    span.textContent = task.text;
+    if (task.done) span.classList.add("done");
+
+    const actions = document.createElement("div");
+    actions.classList.add("actions");
+
+    const doneBtn = document.createElement("button");
+    doneBtn.textContent = "✔";
+    doneBtn.onclick = () => toggleDone(index);
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "✖";
+    deleteBtn.onclick = () => deleteTask(index);
+
+    actions.appendChild(doneBtn);
+    actions.appendChild(deleteBtn);
+
+    li.appendChild(span);
+    li.appendChild(actions);
+
+    list.appendChild(li);
+  });
+}
+
+function addTask() {
+  const text = input.value.trim();
+
+  if (!text) {
+    alert("Please enter a task!");
+    return;
+  }
+
+  // Prevent duplicates
+  const exists = tasks.some(task => task.text.toLowerCase() === text.toLowerCase());
+  if (exists) {
+    alert("Task already exists!");
+    return;
+  }
+
+  tasks.push({ text, done: false });
+  input.value = "";
+  saveTasks();
+  renderTasks();
+}
+
+function deleteTask(index) {
+  tasks.splice(index, 1);
+  saveTasks();
+  renderTasks();
+}
+
+function toggleDone(index) {
+  tasks[index].done = !tasks[index].done;
+  saveTasks();
+  renderTasks();
+}
+
+// Load tasks on start
+renderTasks();
