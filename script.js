@@ -72,6 +72,8 @@ function addTask() {
 }
 
 function deleteTask(index) {
+  if (!confirm("Are you sure you want to delete this task?")) return;
+
   tasks.splice(index, 1);
   saveTasks();
   renderTasks();
