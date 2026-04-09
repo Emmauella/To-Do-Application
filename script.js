@@ -1,5 +1,6 @@
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
+
 const input = document.getElementById("taskInput");
 const form = document.getElementById("taskForm");
 const list = document.getElementById("taskList");
