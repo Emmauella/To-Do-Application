@@ -1,10 +1,14 @@
-* {
+:root {
   box-sizing: border-box;
 }
 
 body {
   font-family: Arial, sans-serif;
-  background: #f0f6ff;
+  background: linear-gradient(rgba(5, 6, 10, 0.801), rgba(23, 57, 107, 0.3)), url("assets/todo5.jpg");
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: cover;
+  background-attachment: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,12 +18,15 @@ body {
 }
 
 .container {
-  background: white;
+  background: linear-gradient(135deg, rgba(2, 8, 17, 0.884), rgba(47, 81, 110, 0.911));
   width: 100%;
-  max-width: 480px;
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  max-width: 600px;
+  padding: 32px;
+  border-radius: 24px;
+  border: 1px solid rgba(137, 151, 235, 0.3);
+  box-shadow: 0 15px 35px rgba(22, 33, 180, 0.1), 0 5px 15px rgba(0, 123, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 h1 {
@@ -55,6 +62,24 @@ button {
 button:hover,
 button:focus {
   background: #0056b3;
+}
+
+.delete-all-btn {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+}
+
+.delete-all-btn:hover,
+.delete-all-btn:focus {
+  background: #c82333;
 }
 
 ul {

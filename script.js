@@ -3,11 +3,14 @@ let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 const input = document.getElementById("taskInput");
 const form = document.getElementById("taskForm");
 const list = document.getElementById("taskList");
+const deleteAllBtn = document.getElementById("deleteAllBtn");
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   addTask();
 });
+
+deleteAllBtn.addEventListener("click", deleteAllTasks);
 
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -78,6 +81,14 @@ function toggleDone(index) {
   tasks[index].done = !tasks[index].done;
   saveTasks();
   renderTasks();
+}
+
+function deleteAllTasks() {
+  if (confirm("Are you sure you want to delete all tasks?")) {
+    tasks = [];
+    saveTasks();
+    renderTasks();
+  }
 }
 
 // Load tasks on start
