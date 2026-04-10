@@ -5,10 +5,20 @@ const input = document.getElementById("taskInput");
 const form = document.getElementById("taskForm");
 const list = document.getElementById("taskList");
 const deleteAllBtn = document.getElementById("deleteAllBtn");
+const message = document.getElementById("message");
+
+let deleteIndex = null;
+let deleteAllPending = false;
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   addTask();
+});
+
+input.addEventListener('input', () => {
+  if (input.value.trim() === '') {
+    message.textContent = '';
+  }
 });
 
 deleteAllBtn.addEventListener("click", deleteAllTasks);
@@ -54,15 +64,17 @@ function renderTasks() {
 function addTask() {
   const text = input.value.trim();
 
+  message.textContent = ""; // Clear previous message
+
   if (!text) {
-    alert("Please enter a task!");
+    message.textContent = "Please enter a task!";
     return;
   }
 
   // Prevent duplicates
   const exists = tasks.some(task => task.text.toLowerCase() === text.toLowerCase());
   if (exists) {
-    alert("Task already exists!");
+    message.textContent = "Task already exists!";
     return;
   }
 
@@ -73,11 +85,21 @@ function addTask() {
 }
 
 function deleteTask(index) {
-  if (!confirm("Are you sure you want to delete this task?")) return;
-
-  tasks.splice(index, 1);
-  saveTasks();
-  renderTasks();
+  deleteIndex = index;
+  message.innerHTML = "Are you sure you want to delete this task? <button id='confirmYes'>Yes</button> <button id='confirmNo'>No</button>";
+  document.getElementById('confirmYes').addEventListener('click', () => {
+    if (deleteIndex !== null) {
+      tasks.splice(deleteIndex, 1);
+      saveTasks();
+      renderTasks();
+      message.textContent = "";
+      deleteIndex = null;
+    }
+  });
+  document.getElementById('confirmNo').addEventListener('click', () => {
+    message.textContent = "";
+    deleteIndex = null;
+  });
 }
 
 function toggleDone(index) {
@@ -87,11 +109,21 @@ function toggleDone(index) {
 }
 
 function deleteAllTasks() {
-  if (confirm("Are you sure you want to delete all tasks?")) {
-    tasks = [];
-    saveTasks();
-    renderTasks();
-  }
+  deleteAllPending = true;
+  message.innerHTML = "Are you sure you want to delete all tasks? <button id='confirmYesAll'>Yes</button> <button id='confirmNoAll'>No</button>";
+  document.getElementById('confirmYesAll').addEventListener('click', () => {
+    if (deleteAllPending) {
+      tasks = [];
+      saveTasks();
+      renderTasks();
+      message.textContent = "";
+      deleteAllPending = false;
+    }
+  });
+  document.getElementById('confirmNoAll').addEventListener('click', () => {
+    message.textContent = "";
+    deleteAllPending = false;
+  });
 }
 
 // Load tasks on start
